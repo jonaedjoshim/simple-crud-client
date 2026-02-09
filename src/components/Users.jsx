@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { use } from 'react';
 
-const Users = () => {
+const Users = ({ userPromise }) => {
 
+    const initialUsers = use(userPromise)
+    console.log(initialUsers)
     const handleAddUser = (e) => {
         e.preventDefault()
         const form = e.target
@@ -11,7 +13,7 @@ const Users = () => {
         console.log(user)
 
         //create user in DB
-        fetch('http://localhost:3000/users', {
+        fetch('http://localhost:5000/users', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -21,6 +23,10 @@ const Users = () => {
             .then(res => res.json())
             .then(data => {
                 console.log('data after creating user in the db', data)
+                if (data.insertedId) {
+                    alert('user added successfully')
+                    form.reset()
+                }
             })
 
     }
