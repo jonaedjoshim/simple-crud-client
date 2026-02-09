@@ -35,6 +35,17 @@ const Users = ({ userPromise }) => {
 
     }
 
+    const handleDeleteUser = (id) => {
+        console.log('deleting user', id)
+        fetch(`http://localhost:5000/users/${id}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json)
+            .then(data => {
+                console.log('after delete data', data)
+            })
+    }
+
 
     return (
         <div>
@@ -53,7 +64,19 @@ const Users = ({ userPromise }) => {
             {/* show users */}
             <div className='border-2 border-gray-700 rounded flex flex-col gap-6 p-4'>
                 {
-                    users.map(user => <p className='border-2 border-gray-700 rounded p-4' key={user._id}>User Name : {user.name}<br />User Email : {user.email} <br/><button className='btn btn-ghost border-gray-700 text-base p-5 border-2 mt-4 w-[50%]'>Delete User</button></p>)
+                    users.map(user => <p
+                        className='border-2 border-gray-700 rounded p-4'
+                        key={user._id}>
+                        User Name : {user.name}
+                        <br />
+                        User Email : {user.email}
+                        <br />
+                        <button
+                            onClick={() => handleDeleteUser(user._id)}
+                            className='btn btn-ghost border-gray-700 text-base p-5 border-2 mt-4 w-[50%]'>
+                            Delete User
+                        </button>
+                    </p>)
                 }
             </div>
         </div>
