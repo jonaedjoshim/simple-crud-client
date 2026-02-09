@@ -16,35 +16,33 @@ const Users = ({ userPromise }) => {
         //create user in DB
         fetch('http://localhost:5000/users', {
             method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
+            headers: { 'content-type': 'application/json' },
             body: JSON.stringify(user)
         })
             .then(res => res.json())
             .then(data => {
-                console.log('data after creating user in the db', data)
                 if (data.insertedId) {
-                    newUser._id = data.insertedId
-                    const newUsers = [...users, newUser]
-                    setUsers(newUsers)
-                    alert('user added successfully')
-                    form.reset()
+                    const savedUser = { ...user, _id: data.insertedId };
+                    setUsers(prev => [...prev, savedUser]);
+                    alert('User added successfully');
+                    form.reset();
                 }
-            })
-
-    }
+            });
+    };
 
     const handleDeleteUser = (id) => {
-        console.log('deleting user', id)
         fetch(`http://localhost:5000/users/${id}`, {
             method: 'DELETE'
         })
-            .then(res => res.json)
+            .then(res => res.json())
             .then(data => {
-                console.log('after delete data', data)
-            })
-    }
+                if (data.deletedCount > 0) {
+                    const remaining = users.filter(u => u._id !== id);
+                    setUsers(remaining);
+                    alert(`User deleted!`);
+                }
+            });
+    };
 
 
     return (
@@ -63,20 +61,23 @@ const Users = ({ userPromise }) => {
 
             {/* show users */}
             <div className='border-2 border-gray-700 rounded flex flex-col gap-6 p-4'>
+                <h2 className='font-semibold text-2xl mx-auto border-b-2 border-dashed border-gray-700 pb-1'>
+                    Total User : {users.length}
+                </h2>
                 {
-                    users.map(user => <p
-                        className='border-2 border-gray-700 rounded p-4'
-                        key={user._id}>
-                        User Name : {user.name}
-                        <br />
-                        User Email : {user.email}
-                        <br />
-                        <button
-                            onClick={() => handleDeleteUser(user._id)}
-                            className='btn btn-ghost border-gray-700 text-base p-5 border-2 mt-4 w-[50%]'>
-                            Delete User
-                        </button>
-                    </p>)
+                    users.map(user =>
+                        <div
+                            className='border-2 border-gray-700 rounded space-y-4 p-4'
+                            key={user._id}>
+                            <p>User Name : {user.name}</p>
+                            <p>User Email : {user.email}</p>
+                            <button
+                                onClick={() => handleDeleteUser(user._id)}
+                                className='btn btn-ghost border-gray-700 text-base p-5 border-2  w-[50%]'>
+                                Delete User
+                            </button>
+                        </div>
+                    )
                 }
             </div>
         </div>
