@@ -70,19 +70,28 @@ const Users = ({ userPromise }) => {
                         <div
                             className='border-2 border-gray-700 rounded space-y-4 p-4'
                             key={user._id}>
-                            <div className='mx-auto w-[98%]'>
-                                <p>User Name : {user.name}</p>
-                                <p>User Email : {user.email}</p>
+                            <div className='mx-auto space-y-4 px-1'>
+                                <p>
+                                    <strong>User Name</strong> : {user.name}
+                                </p>
+                                <p>
+                                    <strong>User Email</strong> : {user.email}
+                                </p>
                             </div>
-                            <div className='flex flex-wrap gap-4'>
+                            <div className='grid grid-cols-3 gap-4'>
                                 <Link
                                     to={`/users/${user._id}`}
-                                    className='btn btn-ghost border-gray-700 text-base p-5 border-2  w-[40%]'>
+                                    className='btn btn-ghost border-gray-700 p-5 border-2 w-full'>
                                     User Details
+                                </Link>
+                                <Link
+                                    to={`/update/${user._id}`}
+                                    className='btn btn-ghost border-gray-700 p-5 border-2 w-full'>
+                                    Edit User
                                 </Link>
                                 <button
                                     onClick={() => handleDeleteUser(user._id)}
-                                    className='btn btn-ghost border-gray-700 text-base p-5 border-2  w-[40%]'>
+                                    className='btn btn-ghost border-gray-700 p-5 border-2 w-full'>
                                     Delete User
                                 </button>
                             </div>
