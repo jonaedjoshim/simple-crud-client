@@ -1,4 +1,5 @@
 import React, { use, useState } from 'react';
+import { Link } from 'react-router';
 
 const Users = ({ userPromise }) => {
 
@@ -69,13 +70,22 @@ const Users = ({ userPromise }) => {
                         <div
                             className='border-2 border-gray-700 rounded space-y-4 p-4'
                             key={user._id}>
-                            <p>User Name : {user.name}</p>
-                            <p>User Email : {user.email}</p>
-                            <button
-                                onClick={() => handleDeleteUser(user._id)}
-                                className='btn btn-ghost border-gray-700 text-base p-5 border-2  w-[50%]'>
-                                Delete User
-                            </button>
+                            <div className='mx-auto w-[98%]'>
+                                <p>User Name : {user.name}</p>
+                                <p>User Email : {user.email}</p>
+                            </div>
+                            <div className='flex flex-wrap gap-4'>
+                                <Link
+                                    to={`/users/${user._id}`}
+                                    className='btn btn-ghost border-gray-700 text-base p-5 border-2  w-[40%]'>
+                                    User Details
+                                </Link>
+                                <button
+                                    onClick={() => handleDeleteUser(user._id)}
+                                    className='btn btn-ghost border-gray-700 text-base p-5 border-2  w-[40%]'>
+                                    Delete User
+                                </button>
+                            </div>
                         </div>
                     )
                 }
